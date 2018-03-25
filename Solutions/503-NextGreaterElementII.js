@@ -4,7 +4,6 @@
  * @return {number[]}
  */
 var nextGreaterElements = function(nums) {
-    let map = new Map()
     let stack = []
     let ans = []
  
