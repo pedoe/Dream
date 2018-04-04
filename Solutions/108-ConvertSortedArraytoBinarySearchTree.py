@@ -36,63 +36,52 @@ class Solution(object):
         :type nums: List[int]
         :rtype: TreeNode
         """
-        # def maxDepth(node):
-        #     if not node:
-        #         return 0
-        #     left = maxDepth(node.left)
-        #     right = maxDepth(node.right)
-        #     return max(left, right) + 1
-        #
-        # def isBalanced(node):
-        #     leftDepth = maxDepth(node.left)
-        #     rightDepth = maxDepth(node.right)
-        #     return True if abs(leftDepth - rightDepth) <= 1 else False
-        #
-        # def leftRotate(root):
-        #     root, root.left = root.right, root
-        #     return root
-        #
-        # def rightRotate(root):
-        #     root, root.right = root.left, root
-        #
-        # root = TreeNode(nums[0])
-        # print(root.val)
-        # for i in range(1, len(nums)):
-        #     tmp = root
-        #     print(i, root.val)
-        #     while tmp.right:
-        #         tmp = tmp.right
-        #     tmp.right = TreeNode(nums[i])
-        #     if not isBalanced(root):
-        #         root = leftRotate(root)
-        #
-        # return root
-
         return self.sortedArrayToBSTRecu(nums, 0, len(nums))
 
+    # latonn's
     def sortedArrayToBSTRecu(self, nums, start, end):
         if start == end:
             return None
-        mid = start + self.perfect_tree_pivot(end - start)
+        mid = int(start + (end - start)/2)
         node = TreeNode(nums[mid])
         node.left = self.sortedArrayToBSTRecu(nums, start, mid)
         node.right = self.sortedArrayToBSTRecu(nums, mid + 1, end)
         return node
 
-    def perfect_tree_pivot(self, n):
-        x = 1 << (n.bit_length() - 1)
-
-        if x // 2 - 1 <= (n - x):
-            return x - 1
-        else:
-            return n - x // 2
+    # kamyu's
+    # def sortedArrayToBSTRecu(self, nums, start, end):
+    #     if start == end:
+    #         return None
+    #     mid = start + self.perfect_tree_pivot(end - start)
+    #     node = TreeNode(nums[mid])
+    #     node.left = self.sortedArrayToBSTRecu(nums, start, mid)
+    #     node.right = self.sortedArrayToBSTRecu(nums, mid + 1, end)
+    #     return node
+    #
+    # def perfect_tree_pivot(self, n):
+    #     """
+    #     Find the point to partition n keys for a perfect binary search tree
+    #     """
+    #     x = 1
+    #     # find a power of 2 <= n//2
+    #     # while x <= n//2:  # this loop could probably be written more elegantly :)
+    #     #     x *= 2
+    #     x = 1 << (n.bit_length() - 1)  # use the left bit shift, same as multiplying x by 2**n-1
+    #
+    #     if x // 2 - 1 <= (n - x):
+    #         return x - 1  # case 1: the left subtree of the root is perfect and the right subtree has less nodes
+    #     else:
+    #         return n - x // 2  # case 2 == n - (x//2 - 1) - 1 : the left subtree of the root
+    #         # has more nodes and the right subtree is perfect.
 
 
 if __name__ == '__main__':
-    nums = [-10, -3, 0, 5, 9]
+    nums = [-10, -3, 0, 5, 9, 11]
     root = Solution().sortedArrayToBST(nums)
     print(root.val)
     print(root.left.val)
     print(root.left.left.val)
     print(root.left.right.val)
     print(root.right.val)
+    print(root.right.left.val)
+
